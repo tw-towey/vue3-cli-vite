@@ -2,13 +2,13 @@
  * @Author: tuWei
  * @Date: 2022-06-30 18:54:03
  * @LastEditors: tuWei
- * @LastEditTime: 2022-07-04 16:41:16
+ * @LastEditTime: 2022-07-06 14:22:53
 -->
 <template>
 <div style="display:flex; flex-direction: column" class="h100">
   <el-form :inline="true" :model="formInline" style="min-height: 60px; padding: 10px; margin-top: 20px;text-align: left;" >
       <el-form-item label="姓名">
-        <el-input v-model="formInline.userName" placeholder="姓名" />
+        <el-input v-model="formInline.username" placeholder="姓名" />
       </el-form-item>
       <el-form-item label="手机号码">
         <el-input v-model="formInline.cellphone" placeholder="手机号码" />
@@ -18,7 +18,7 @@
       </el-form-item>
   </el-form>
   <el-table :data="tableData" style="height: 88%;width: 100%; overflow: auto;">
-    <el-table-column prop="userName" label="姓名" width="100" />
+    <el-table-column prop="username" label="姓名" width="100" />
     <el-table-column prop="job" label="职业" width="100" />
     <el-table-column prop="dateOfBirth" label="出生日期" width="120" :formatter="formatter">
     </el-table-column>
@@ -68,7 +68,7 @@ const closeModel = (flag)=>{
   getData();
 }
 const formInline = reactive({
-  userName: '',
+  username: '',
   cellphone: '',
 });
 
@@ -101,12 +101,12 @@ const getData = ()=>{
       ...formInline
     })
     .then(function (res) {
-      console.log(res.total);
+      console.log(res['total']);
       changeform(res.data)
-      total.value = res.total;
+      total.value = res['total'];
       ElMessage({
         showClose: true,
-        message: '操作成功',
+        message: res['message'] || null,
         type: 'success',
       })
     })

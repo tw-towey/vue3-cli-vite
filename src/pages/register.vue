@@ -2,7 +2,7 @@
  * @Author: tuWei
  * @Date: 2022-06-30 18:57:02
  * @LastEditors: tuWei
- * @LastEditTime: 2022-07-04 17:04:25
+ * @LastEditTime: 2022-07-06 14:21:36
 -->
 <template>
   <el-form :model="form" label-width="120px">
@@ -10,7 +10,7 @@
       注册信息
     </h2>
     <el-form-item label="用户名">
-      <el-input v-model="form.userName" />
+      <el-input v-model="form.username" />
     </el-form-item>
     <el-form-item label="密码">
       <el-input type="text" v-model="form.password" />
@@ -52,20 +52,22 @@
       <el-input v-model="form.remake" type="textarea" rows="8" />
     </el-form-item>
      <el-form-item v-if="userId">
-      <el-button type="primary" @click="onSave">保存</el-button>
+      <el-button  @click="onSave">保存</el-button>
     </el-form-item>
     <el-form-item v-else>
-      <el-button type="primary" @click="onSubmit">Create</el-button>
+      <el-button @click="onSubmit">Create</el-button>
       <el-button @click="changeform">刷新数据</el-button>
     </el-form-item>
   </el-form>
 </template>
 
 <script lang="ts" setup>
-import { reactive, getCurrentInstance, ref } from 'vue'
+import { reactive } from 'vue'
 import { ElMessage } from 'element-plus';
 import axios from '../api/axios'//引入axios
 import Mock from 'mockjs'
+import { useRouter } from 'vue-router'
+const router = useRouter();
 
 type Props = {
   userId: Number,
@@ -82,7 +84,7 @@ Mock.Random.extend({
 })
 // do not use same name with ref
 const form = reactive({
-  userName: '',
+  username: '',
   password: '',
   dateOfBirth: '',
   sex: '',
@@ -96,7 +98,7 @@ const form = reactive({
 
 const changeform = (res)=>{
   const Obj = res || {};
-  form.userName = Obj.userName || Mock.mock('@cname');
+  form.username = Obj.username || Mock.mock('@cname');
   form.password = Obj.password || '123456';
   form.dateOfBirth = Obj.dateOfBirth || Mock.mock('@date');
   form.sex = Obj.sex || Math.round(Math.random() + 1);
@@ -128,9 +130,12 @@ const onSubmit = () => {
   .then(function (res) {
     console.log(res);
     changeform({})
+    router.push({
+      path: '/home/list',
+    })
     ElMessage({
       showClose: true,
-      message: '操作成功',
+      message: res['message'],
       type: 'success',
     })
   })
@@ -143,7 +148,7 @@ const onSave = ()=>{
   .then(function (res) {
     ElMessage({
       showClose: true,
-      message: '操作成功',
+      message: res['message'],
       type: 'success',
     });
     emit('close-model', false);

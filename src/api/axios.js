@@ -2,7 +2,7 @@
  * @Author: tuWei
  * @Date: 2022-06-30 19:06:57
  * @LastEditors: tuWei
- * @LastEditTime: 2022-06-30 23:50:56
+ * @LastEditTime: 2022-07-07 00:41:14
  */
 import axios from 'axios'//引入axios
 axios.defaults.crossDomain = true;
@@ -12,8 +12,8 @@ axios.defaults.timeout = 120000;
 import { getCookie } from "./utils"
 axios.interceptors.request.use(
   cfg => {
-    if (getCookie()) {
-      cfg.headers.common['ACCESS-TOKEN'] = getCookie();
+    if (getCookie('access_token')) {
+      cfg.headers.common['Authorization'] = 'Bearer ' + getCookie('access_token');
     }
     return cfg;
   },

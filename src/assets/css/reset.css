@@ -91,3 +91,7 @@ table {border-collapse: collapse;border-spacing: 0;font:inherit;}
 /* End hide from IE-mac */
 
 *+html .clearfix{min-height:1%;}/* IE7 */
+
+button, [type='button'], [type='reset'], [type='submit'] {
+  background-image: none;
+}
