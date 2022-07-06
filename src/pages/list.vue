@@ -2,7 +2,7 @@
  * @Author: tuWei
  * @Date: 2022-06-30 18:54:03
  * @LastEditors: tuWei
- * @LastEditTime: 2022-07-06 14:22:53
+ * @LastEditTime: 2022-07-07 01:35:56
 -->
 <template>
 <div style="display:flex; flex-direction: column" class="h100">
@@ -39,7 +39,7 @@
   </div>
   <el-dialog v-model="outerVisible" width="800px" title="编辑信息">
     <div style="height: 600px; overflow: auto">
-      <register v-if="outerVisible" @close-model="closeModel" :userId="userId"></register>
+      <Register v-if="outerVisible" @close-model="closeModel" :userId="userId"></Register>
     </div>
   </el-dialog>
 </div>
@@ -50,7 +50,7 @@ import axios from '../api/axios'//引入axios
 import { ref, reactive } from 'vue'
 import { ElMessage } from 'element-plus';
 import { Timer } from '@element-plus/icons-vue'
-import register from './register.vue';
+import Register from './register.vue';
 
 let tableData = ref([]);
 let userId = ref(null);

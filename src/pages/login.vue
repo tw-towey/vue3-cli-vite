@@ -2,7 +2,7 @@
  * @Author: tuWei
  * @Date: 2022-06-30 18:57:02
  * @LastEditors: tuWei
- * @LastEditTime: 2022-07-06 19:31:01
+ * @LastEditTime: 2022-07-07 01:39:56
 -->
 <template>
 <div>
@@ -35,7 +35,7 @@ import { setCookie } from "../api/utils"
 
 const router = useRouter();
 const form = reactive({
-  username: '李霞',
+  username: '李霞1',
   password: '123456'
 })
 const onSave = ()=>{

@@ -2,7 +2,7 @@
  * @Author: tuWei
  * @Date: 2022-07-04 16:57:04
  * @LastEditors: tuWei
- * @LastEditTime: 2022-07-06 12:34:42
+ * @LastEditTime: 2022-07-07 01:38:17
 -->
 <template>
 
@@ -59,6 +59,10 @@ const handleOpen = (key: string, keyPath: string[]) => {
   }else if(key === '2'){
     router.push({
       path: '/home/list',
+    })
+  }else if(key === '3'){
+    router.push({
+      path: '/login',
     })
   }
 }
