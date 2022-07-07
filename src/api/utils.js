@@ -2,7 +2,7 @@
  * @Author: tuWei
  * @Date: 2022-06-30 19:12:00
  * @LastEditors: tuWei
- * @LastEditTime: 2022-06-30 20:13:45
+ * @LastEditTime: 2022-07-07 12:13:22
  */
 export function setCookie (name, value, path, domain, time) {
   let arr = [];
@@ -42,8 +42,3 @@ export function getCookies () {
   }
   return result;
 }
-
-// export default { 
-//   setCookie,
-//   getCookie
-// }

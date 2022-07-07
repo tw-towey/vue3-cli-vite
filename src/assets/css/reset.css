@@ -92,6 +92,7 @@ table {border-collapse: collapse;border-spacing: 0;font:inherit;}
 
 *+html .clearfix{min-height:1%;}/* IE7 */
 
-button, [type='button'], [type='reset'], [type='submit'] {
-  background-image: none;
+*{
+  margin: 0;
+  padding: 0;
 }

@@ -2,11 +2,11 @@
  * @Author: tuWei
  * @Date: 2022-06-30 18:57:02
  * @LastEditors: tuWei
- * @LastEditTime: 2022-07-07 01:15:15
+ * @LastEditTime: 2022-07-07 14:03:22
 -->
 <template>
   <el-form :model="form" label-width="120px">
-    <h2 style="padding: 30px;" v-if="!userId">
+    <h2 class="text-2xl p-8" v-if="!userId">
       注册信息
     </h2>
     <el-form-item label="用户名">
@@ -72,10 +72,10 @@ const router = useRouter();
 type Props = {
   userId: Number,
 }
-
 const props = defineProps<Props>();
 // const { appContext } = getCurrentInstance();
 const sexOpts = [{label: "男", value: 1},{label: "女", value: 2}];
+
 // eslint-disable-next-line no-undef
 Mock.Random.extend({
   phone: function () {
@@ -128,8 +128,10 @@ initData();
 const onSubmit = () => {
   axios.post('http://127.0.0.1:4000/user/addUser', form)
   .then(function (res) {
-    console.log(res);
     changeform({})
+    if(emit){
+      emit('close-model', false);
+    }
     router.push({
       path: '/home/list',
     })

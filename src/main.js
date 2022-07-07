@@ -2,14 +2,14 @@
  * @Author: tuWei
  * @Date: 2022-06-30 18:41:36
  * @LastEditors: tuWei
- * @LastEditTime: 2022-07-04 16:45:12
+ * @LastEditTime: 2022-07-07 11:49:03
  */
 import { createApp } from 'vue'
 import App from './App.vue'
 import { createRouter,createWebHashHistory } from 'vue-router'
 import ElementPlus from 'element-plus'
-import 'element-plus/dist/index.css'
 import './assets/css/index.css'
+import 'element-plus/dist/index.css'
 import routes from './router/router'
 
 // import axios from './api/axios.js';
