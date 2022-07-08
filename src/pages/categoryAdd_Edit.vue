@@ -2,43 +2,24 @@
  * @Author: tuWei
  * @Date: 2022-06-30 18:57:02
  * @LastEditors: tuWei
- * @LastEditTime: 2022-07-08 19:30:59
+ * @LastEditTime: 2022-07-08 17:42:39
 -->
 <template>
   <div class="p-4">
-    <el-form :model="form" label-width="120px" v-if="!view">
-      <h2 class="text-2xl p-3 text-center" v-if="!userId">
+    <el-form :model="form" label-width="120px">
+      <h2 class="text-2xl p-3 text-center">
         新增
       </h2>
-      <el-form-item label="标题">
-        <el-input v-model="form.title" />
+      <el-form-item label="名称">
+        <el-input v-model="form.name" />
       </el-form-item>
-      <el-form-item label="摘要">
+      <el-form-item label="分类描述">
         <el-input v-model="form.remake" type="textarea" rows="2" />
       </el-form-item>
-      <el-form-item label="分类">
-        <el-select v-model="form.categories" multiple clearable placeholder="Select" class="w-full">
-          <el-option
-            v-for="item in category.opts"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id"
-          />
-        </el-select>
-      </el-form-item>
-      <!-- <div title="添加与修改文章" class="w-full p-16"> -->
-      <!-- </div> -->
-      <el-form-item label="内容" class="py-1.5">
-        <md-editor v-model="form.content" :preview='true' class='h-full'/>
-      </el-form-item>
-      <el-form-item v-if="userId">
-        <el-button @click="onSave" type="primary">保存</el-button>
-      </el-form-item>
-      <el-form-item v-else>
+      <el-form-item class="text-center">
         <el-button @click="onSubmit">保存</el-button>
       </el-form-item>
     </el-form>
-    <md-editor v-else v-model="form.content" codeTheme="atom" :preview='true' :previewOnly="true" class='h-full'/>
   </div>
 </template>
 
@@ -46,9 +27,6 @@
 import { reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus';
 import axios from '../api/axios'//引入axios
-import Mock from 'mockjs'
-import MdEditor from 'md-editor-v3';
-import 'md-editor-v3/lib/style.css';
 import { useRoute, useRouter } from 'vue-router'
 const router = useRouter();
 const route= useRoute();
@@ -59,48 +37,21 @@ const view = ref(route.query.type ? true : false);
 console.log(view.value);
 // do not use same name with ref
 const form = reactive({
-  categories: [],
-  title: '',
-  content: '',
+  name: '',
   remake: '',
 });
-interface sas {
-  name: string,
-  id: string
-}
-const category = reactive({
-  opts: [
-    {
-      name: '请选择',
-      id: ''
-    }
-  ]
-})
-const getCategory = ()=>{
-  axios.post('http://127.0.0.1:4000/category/categoryList', {
-    pageSize: 100,
-    current: 1,
-    name: '',
-  })
-  .then(function (res) {
-    if(res.data){
-      category.opts = reactive(res.data)
-    }
-  })
-}
-getCategory();
+
 const changeform = (res) => {
   const Obj = res || {};
-  form.title = Obj.title;
-  form.content = Obj.content || '';
+  form.name = Obj.title;
   form.remake = Obj.remake || '';
-  form.categories = Obj.categories || [];
 };
 
 const getDetailByUserId = (id) => {
   axios.get('http://127.0.0.1:4000/posts/queryById/' + id)
     .then(function (res) {
       console.log(res);
+      changeform(res.data)
     })
 }
 const initData = () => {
@@ -113,11 +64,11 @@ const initData = () => {
 
 initData();
   const onSubmit = () => {
-    axios.post('http://127.0.0.1:4000/posts/create', { ...form } )
+    axios.post('http://127.0.0.1:4000/category/create', { ...form } )
     .then(function (res) {
       changeform({})
       router.push({
-        path: '/home/posts',
+        path: '/home/category',
       })
       ElMessage({
         showClose: true,

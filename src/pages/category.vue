@@ -2,16 +2,13 @@
  * @Author: tuWei
  * @Date: 2022-06-30 18:54:03
  * @LastEditors: tuWei
- * @LastEditTime: 2022-07-08 14:11:57
+ * @LastEditTime: 2022-07-08 18:29:01
 -->
 <template>
 <div class="h-full flex flex-col">
   <el-form :inline="true" :model="formInline" style="min-height: 60px; padding: 10px; text-align: left;" >
-      <el-form-item label="创建人">
-        <el-input v-model="formInline.username" placeholder="创建人" />
-      </el-form-item>
-      <el-form-item label="标题">
-        <el-input v-model="formInline.title" placeholder="标题" />
+      <el-form-item label="名称">
+        <el-input v-model="formInline.name" placeholder="名称" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">Query</el-button>
@@ -20,11 +17,9 @@
   </el-form>
   <div style="width: 100%; overflow: auto;" class="flex-1" >
     <el-table :data="tableData">
-      <el-table-column prop="username" label="创建人" width="100" />
-      <el-table-column prop="cellphone" label="创建人手机号码" width="150" />
-      <el-table-column prop="createdAt" label="创建时间" width="180" />
-      <el-table-column prop="title" label="标题" width="100" />
+      <el-table-column prop="name" label="名称"  />
       <el-table-column prop="remake" label="摘要"/>
+      <el-table-column prop="createdAt" label="创建时间" />
       <el-table-column fixed="right" label="Operations" width="120">
         <template #default="scope">
           <el-button link type="primary" size="small" @click="editFn(scope)">Edit</el-button>
@@ -64,8 +59,7 @@ const closeModel = (flag)=>{
   getData();
 }
 const formInline = reactive({
-  username: '',
-  title: '',
+  name: '',
 });
 
 
@@ -73,7 +67,7 @@ const current = ref(1);
 const total = ref(1);
 const onAddPost = ()=>{
   router.push({
-    path: '/home/posts/add_edit',
+    path: '/home/category/Add_Edit',
   })
 }
 const changePage = (pager)=>{
@@ -83,7 +77,7 @@ const changePage = (pager)=>{
 }
 const seeFn = (r)=> {
   router.push({
-    path: '/home/posts/add_edit',
+    path: '/home/category/Add_Edit',
     query: {
       id: r.row.id,
       type: 'view'
@@ -93,7 +87,7 @@ const seeFn = (r)=> {
 
 const editFn = (r)=>{
   router.push({
-    path: '/home/posts/add_edit',
+    path: '/home/category/Add_Edit',
     query: {
       id: r.row.id
     }
@@ -107,10 +101,10 @@ const deleteFn = (r)=> {
     })
 }
 const getData = ()=>{
-    axios.post('http://127.0.0.1:4000/posts/list', {
+    axios.post('http://127.0.0.1:4000/category/categoryList', {
       pageSize: 10,
       current: current.value,
-      title: formInline.title
+      name: formInline.name
     })
     .then(function (res) {
       console.log(res['total']);

@@ -67,6 +67,11 @@
   resolved "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.182.tgz#05301a4d5e62963227eaafe0ce04dd77c54ea5c2"
   integrity sha512-/THyiqyQAP9AfARo4pF+aCGcyiQ94tX/Is2I7HofNRqoYLgN1PBoOWu2/zTA5zMxzP5EFutMtWtGAFRKUe961Q==
 
+"@types/marked@^4.0.3":
+  version "4.0.3"
+  resolved "https://registry.npmjs.org/@types/marked/-/marked-4.0.3.tgz#2098f4a77adaba9ce881c9e0b6baf29116e5acc4"
+  integrity sha512-HnMWQkLJEf/PnxZIfbm0yGJRRZYYMhb++O9M36UCTA9z53uPvVoSlAwJr3XOpDEryb7Hwl1qAx/MV6YIW1RXxg==
+
 "@types/web-bluetooth@^0.0.14":
   version "0.0.14"
   resolved "https://registry.npmjs.org/@types/web-bluetooth/-/web-bluetooth-0.0.14.tgz#94e175b53623384bff1f354cdb3197a8d63cdbe5"
@@ -663,6 +668,13 @@ magic-string@^0.25.7:
   integrity sha512-RmF0AsMzgt25qzqqLc1+MbHmhdx0ojF2Fvs4XnOqz2ZOBXzzkEwc/dJQZCYHAn7v1jbVOjAZfK8msRn4BxO4VQ==
   dependencies:
     sourcemap-codec "^1.4.8"
+
+md-editor-v3@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.npmjs.org/md-editor-v3/-/md-editor-v3-2.2.0.tgz#5879f6c03447b3e146d3f77c2ef95261ca471743"
+  integrity sha512-HedYbNnYSaF3Pc9xIccEP9di+vCYim7f3oy0RpuORU1nAcEP7G7h4RUjjbXPpOMkF0JS0T9Ghn8c1o3d/GS49Q==
+  dependencies:
+    "@types/marked" "^4.0.3"
 
 memoize-one@^6.0.0:
   version "6.0.0"

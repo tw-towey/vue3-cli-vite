@@ -2,7 +2,7 @@
  * @Author: tuWei
  * @Date: 2022-07-04 16:57:04
  * @LastEditors: tuWei
- * @LastEditTime: 2022-07-07 19:22:40
+ * @LastEditTime: 2022-07-08 17:28:14
 -->
 <template>
   <div class="h-full">
@@ -18,6 +18,10 @@
           <el-menu-item index="2">
             <el-icon><document /></el-icon>
             <span>文章列表</span>
+          </el-menu-item>
+          <el-menu-item index="3">
+            <el-icon><document /></el-icon>
+            <span>文章分类</span>
           </el-menu-item>
         </el-menu>
       </el-col>
@@ -59,7 +63,7 @@ const router = useRouter();
 const outerVisible = ref(false)
 const userInfo = reactive(JSON.parse(String(localStorage.getItem('userInfo'))));
 
-const acIndex = ref()
+const acIndex = ref('1')
 
 const toLogin = () => {
   router.push({
@@ -92,10 +96,18 @@ const handleOpen = (key: string, keyPath: string[]) => {
     router.push({
       path: '/home/list',
     })
+    acIndex.value = '1'
   }else if(key === '2'){
     router.push({
       path: '/home/posts',
     })
+    acIndex.value = '2'
+  }
+  else if(key === '3'){
+    router.push({
+      path: '/home/category',
+    })
+    acIndex.value = '3'
   }
 }
 const handleClose = (key: string, keyPath: string[]) => {
