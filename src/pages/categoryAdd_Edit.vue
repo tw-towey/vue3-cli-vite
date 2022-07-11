@@ -2,7 +2,7 @@
  * @Author: tuWei
  * @Date: 2022-06-30 18:57:02
  * @LastEditors: tuWei
- * @LastEditTime: 2022-07-08 17:42:39
+ * @LastEditTime: 2022-07-11 17:26:13
 -->
 <template>
   <div class="p-4">
@@ -11,13 +11,14 @@
         新增
       </h2>
       <el-form-item label="名称">
-        <el-input v-model="form.name" />
+        <el-input v-model="form.name" :disable="view"/>
       </el-form-item>
       <el-form-item label="分类描述">
-        <el-input v-model="form.remake" type="textarea" rows="2" />
+        <el-input v-model="form.remake" :disable="view" type="textarea" rows="2" />
       </el-form-item>
-      <el-form-item class="text-center">
-        <el-button @click="onSubmit">保存</el-button>
+      <el-form-item class="text-center" v-if="!view">
+        <el-button @click="onSubmit" v-if="!userId">保存</el-button>
+        <el-button @click="onSave" v-else>保存</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -43,12 +44,12 @@ const form = reactive({
 
 const changeform = (res) => {
   const Obj = res || {};
-  form.name = Obj.title;
+  form.name = Obj.name;
   form.remake = Obj.remake || '';
 };
 
 const getDetailByUserId = (id) => {
-  axios.get('http://127.0.0.1:4000/posts/queryById/' + id)
+  axios.get('http://127.0.0.1:4000/category/queryById/' + id)
     .then(function (res) {
       console.log(res);
       changeform(res.data)
@@ -63,25 +64,23 @@ const initData = () => {
 }
 
 initData();
-  const onSubmit = () => {
-    axios.post('http://127.0.0.1:4000/category/create', { ...form } )
-    .then(function (res) {
-      changeform({})
-      router.push({
-        path: '/home/category',
-      })
-      ElMessage({
-        showClose: true,
-        message: res['message'],
-        type: 'success',
-      })
+const onSubmit = () => {
+  axios.post('http://127.0.0.1:4000/category/create', { ...form } )
+  .then(function (res) {
+    changeform({})
+    router.push({
+      path: '/home/category',
     })
+    ElMessage({
+      showClose: true,
+      message: res['message'],
+      type: 'success',
+    })
+  })
 };
 
-const emit = defineEmits(['close-model'])
-
 const onSave = () => {
-  axios.post('http://127.0.0.1:4000/posts/updateById', { id: userId.value, ...form })
+  axios.post('http://127.0.0.1:4000/category/update', { id: userId.value, ...form })
     .then(function (res) {
       ElMessage({
         showClose: true,
@@ -89,7 +88,7 @@ const onSave = () => {
         type: 'success',
       });
       router.push({
-        path: '/home/posts',
+        path: '/home/category',
       })
     })
 }

@@ -2,7 +2,7 @@
  * @Author: tuWei
  * @Date: 2022-06-30 18:54:03
  * @LastEditors: tuWei
- * @LastEditTime: 2022-07-08 14:11:57
+ * @LastEditTime: 2022-07-11 17:23:10
 -->
 <template>
 <div class="h-full flex flex-col">
@@ -25,17 +25,19 @@
       <el-table-column prop="createdAt" label="创建时间" width="180" />
       <el-table-column prop="title" label="标题" width="100" />
       <el-table-column prop="remake" label="摘要"/>
+      <el-table-column prop="cNames" label="分类" width="100" />
+      <el-table-column prop="cNum" label="分类数量" width="100" />
       <el-table-column fixed="right" label="Operations" width="120">
         <template #default="scope">
-          <el-button link type="primary" size="small" @click="editFn(scope)">Edit</el-button>
-          <el-button link type="primary" size="small" @click="seeFn(scope)">see</el-button>
-          <el-button link type="primary" size="small" @click="deleteFn(scope)">Delete</el-button>
+          <el-button link type="primary" size="small" @click="editFn(scope)">编辑</el-button>
+          <el-button link type="primary" size="small" @click="seeFn(scope)">查看</el-button>
+          <el-button link type="primary" size="small" @click="deleteFn(scope)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
   </div>
   <div style="height: 60px" >
-    <el-pagination @current-change="changePage" :pageSiz="20" :current-page="current" layout="prev, pager, next" :total="total" />
+    <el-pagination @current-change="changePage" :pageSize="20" :current-page="current" layout="prev, pager, next" :total="total" />
   </div>
 </div>
 </template>
@@ -110,7 +112,8 @@ const getData = ()=>{
     axios.post('http://127.0.0.1:4000/posts/list', {
       pageSize: 10,
       current: current.value,
-      title: formInline.title
+      title: formInline.title,
+      username: formInline.username
     })
     .then(function (res) {
       console.log(res['total']);

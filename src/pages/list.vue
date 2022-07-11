@@ -2,7 +2,7 @@
  * @Author: tuWei
  * @Date: 2022-06-30 18:54:03
  * @LastEditors: tuWei
- * @LastEditTime: 2022-07-07 12:45:58
+ * @LastEditTime: 2022-07-11 17:15:24
 -->
 <template>
 <div class="h-full flex flex-col">
@@ -38,7 +38,7 @@
     </el-table>
   </div>
   <div style="height: 60px" >
-    <el-pagination @current-change="changePage" :pageSiz="20" :current-page="current" layout="prev, pager, next" :total="total" />
+    <el-pagination @current-change="changePage" :pageSize="20" :current-page="current" layout="prev, pager, next" :total="total" />
   </div>
   <el-dialog v-model="outerVisible" width="800px" :title="title">
     <div style="height: 600px; overflow: auto">

@@ -2,7 +2,7 @@
  * @Author: tuWei
  * @Date: 2022-06-30 18:57:02
  * @LastEditors: tuWei
- * @LastEditTime: 2022-07-08 19:30:59
+ * @LastEditTime: 2022-07-11 17:27:02
 -->
 <template>
   <div class="p-4">
@@ -100,7 +100,7 @@ const changeform = (res) => {
 const getDetailByUserId = (id) => {
   axios.get('http://127.0.0.1:4000/posts/queryById/' + id)
     .then(function (res) {
-      console.log(res);
+      changeform(res.data);
     })
 }
 const initData = () => {

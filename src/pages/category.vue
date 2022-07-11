@@ -2,7 +2,7 @@
  * @Author: tuWei
  * @Date: 2022-06-30 18:54:03
  * @LastEditors: tuWei
- * @LastEditTime: 2022-07-08 18:29:01
+ * @LastEditTime: 2022-07-11 17:22:11
 -->
 <template>
 <div class="h-full flex flex-col">
@@ -19,12 +19,13 @@
     <el-table :data="tableData">
       <el-table-column prop="name" label="名称"  />
       <el-table-column prop="remake" label="摘要"/>
+      <el-table-column prop="postNum" label="文章数量" />
       <el-table-column prop="createdAt" label="创建时间" />
       <el-table-column fixed="right" label="Operations" width="120">
         <template #default="scope">
-          <el-button link type="primary" size="small" @click="editFn(scope)">Edit</el-button>
-          <el-button link type="primary" size="small" @click="seeFn(scope)">see</el-button>
-          <el-button link type="primary" size="small" @click="deleteFn(scope)">Delete</el-button>
+          <el-button link type="primary" size="small" @click="editFn(scope)">编辑</el-button>
+          <el-button link type="primary" size="small" @click="seeFn(scope)">查看</el-button>
+          <el-button link type="primary" size="small" @click="deleteFn(scope)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -94,7 +95,7 @@ const editFn = (r)=>{
   })
 }
 const deleteFn = (r)=> {
-  axios.get('http://127.0.0.1:4000/posts/remove/' + r.row.id)
+  axios.post('http://127.0.0.1:4000/category/delete', { id: r.row.id })
     .then(function (res) {
       console.log(res);
       getData();
