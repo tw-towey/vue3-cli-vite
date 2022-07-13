@@ -2,7 +2,7 @@
  * @Author: tuWei
  * @Date: 2022-06-30 18:57:02
  * @LastEditors: tuWei
- * @LastEditTime: 2022-07-07 14:03:22
+ * @LastEditTime: 2022-07-13 18:25:45
 -->
 <template>
   <el-form :model="form" label-width="120px">
@@ -64,7 +64,7 @@
 <script lang="ts" setup>
 import { reactive } from 'vue'
 import { ElMessage } from 'element-plus';
-import axios from '../api/axios'//引入axios
+import axios from '../api/axios' //引入axios
 import Mock from 'mockjs'
 import { useRouter } from 'vue-router'
 const router = useRouter();
@@ -72,6 +72,7 @@ const router = useRouter();
 type Props = {
   userId: Number,
 }
+
 const props = defineProps<Props>();
 // const { appContext } = getCurrentInstance();
 const sexOpts = [{label: "男", value: 1},{label: "女", value: 2}];
@@ -82,6 +83,7 @@ Mock.Random.extend({
     return  Mock.mock(/^0{0,1}(1[0-9][0-9]|15[7-9]|153|156|18[7-9])[0-9]{8}$/) //Number()
   }
 })
+
 // do not use same name with ref
 const form = reactive({
   username: '',
@@ -144,7 +146,6 @@ const onSubmit = () => {
 };
 
 const emit = defineEmits(['close-model'])
-
 const onSave = ()=>{
   axios.post('http://127.0.0.1:4000/user/update', { id: props.userId, ...form, dateOfBirth: new Date(form.dateOfBirth).toLocaleDateString() })
   .then(function (res) {
@@ -156,5 +157,4 @@ const onSave = ()=>{
     emit('close-model', false);
   })
 }
-
 </script>

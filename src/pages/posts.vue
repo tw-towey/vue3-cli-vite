@@ -2,7 +2,7 @@
  * @Author: tuWei
  * @Date: 2022-06-30 18:54:03
  * @LastEditors: tuWei
- * @LastEditTime: 2022-07-11 17:23:10
+ * @LastEditTime: 2022-07-13 18:47:46
 -->
 <template>
 <div class="h-full flex flex-col">
@@ -83,12 +83,13 @@ const changePage = (pager)=>{
   console.log(current.value);
   getData();
 }
+
 const seeFn = (r)=> {
   router.push({
     path: '/home/posts/add_edit',
     query: {
       id: r.row.id,
-      type: 'view'
+      type: 'true',
     }
   })
 }

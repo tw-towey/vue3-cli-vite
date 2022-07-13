@@ -2,7 +2,7 @@
  * @Author: tuWei
  * @Date: 2022-06-30 18:57:02
  * @LastEditors: tuWei
- * @LastEditTime: 2022-07-11 12:27:44
+ * @LastEditTime: 2022-07-13 18:33:21
 -->
 <template>
 <div class="bg-green-500 bg-opacity-25 h-full">
@@ -36,7 +36,7 @@ import { getCookie, setCookie } from "../api/utils"
 
 const router = useRouter();
 const form = reactive({
-  username: '魏秀英',
+  username: '涂威',
   password: '123456'
 })
 

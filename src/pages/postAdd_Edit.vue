@@ -2,7 +2,7 @@
  * @Author: tuWei
  * @Date: 2022-06-30 18:57:02
  * @LastEditors: tuWei
- * @LastEditTime: 2022-07-11 17:27:02
+ * @LastEditTime: 2022-07-13 18:51:08
 -->
 <template>
   <div class="p-4">
@@ -38,7 +38,10 @@
         <el-button @click="onSubmit">保存</el-button>
       </el-form-item>
     </el-form>
-    <md-editor v-else v-model="form.content" codeTheme="atom" :preview='true' :previewOnly="true" class='h-full'/>
+    <div v-else> 
+      <h2 class="text-center">文章详情</h2>
+      <md-editor v-model="form.content" codeTheme="atom" :preview='true' :previewOnly="true" class='h-full'/>
+    </div>
   </div>
 </template>
 
@@ -52,11 +55,10 @@ import 'md-editor-v3/lib/style.css';
 import { useRoute, useRouter } from 'vue-router'
 const router = useRouter();
 const route= useRoute();
-console.log(route.query); 
 const userInfo = JSON.parse(String(localStorage.getItem('userInfo')));
 const userId = ref(route.query.id);
 const view = ref(route.query.type ? true : false);
-console.log(view.value);
+console.log(route.query.type);
 // do not use same name with ref
 const form = reactive({
   categories: [],
@@ -64,10 +66,6 @@ const form = reactive({
   content: '',
   remake: '',
 });
-interface sas {
-  name: string,
-  id: string
-}
 const category = reactive({
   opts: [
     {
@@ -90,11 +88,11 @@ const getCategory = ()=>{
 }
 getCategory();
 const changeform = (res) => {
-  const Obj = res || {};
-  form.title = Obj.title;
-  form.content = Obj.content || '';
-  form.remake = Obj.remake || '';
-  form.categories = Obj.categories || [];
+  const obj = res || {};
+  form.title = obj.title;
+  form.content = obj.content || '';
+  form.remake = obj.remake || '';
+  form.categories = obj.categories || [];
 };
 
 const getDetailByUserId = (id) => {
@@ -103,6 +101,7 @@ const getDetailByUserId = (id) => {
       changeform(res.data);
     })
 }
+
 const initData = () => {
   if (route.query.id) {
     getDetailByUserId(route.query.id);
@@ -110,37 +109,37 @@ const initData = () => {
     changeform({});
   }
 }
-
 initData();
-  const onSubmit = () => {
-    axios.post('http://127.0.0.1:4000/posts/create', { ...form } )
-    .then(function (res) {
-      changeform({})
-      router.push({
-        path: '/home/posts',
-      })
-      ElMessage({
-        showClose: true,
-        message: res['message'],
-        type: 'success',
-      })
+
+const onSubmit = () => {
+  axios.post('http://127.0.0.1:4000/posts/create', { ...form } )
+  .then(function (res) {
+    changeform({})
+    router.push({
+      path: '/home/posts',
     })
+    ElMessage({
+      showClose: true,
+      message: res['message'],
+      type: 'success',
+    })
+  })
 };
 
 const emit = defineEmits(['close-model'])
 
 const onSave = () => {
   axios.post('http://127.0.0.1:4000/posts/updateById', { id: userId.value, ...form })
-    .then(function (res) {
-      ElMessage({
-        showClose: true,
-        message: res['message'],
-        type: 'success',
-      });
-      router.push({
-        path: '/home/posts',
-      })
+  .then(function (res) {
+    ElMessage({
+      showClose: true,
+      message: res['message'],
+      type: 'success',
+    });
+    router.push({
+      path: '/home/posts',
     })
+  })
 }
 
 </script>

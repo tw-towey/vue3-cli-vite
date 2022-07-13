@@ -2,26 +2,18 @@
  * @Author: tuWei
  * @Date: 2022-07-04 16:57:04
  * @LastEditors: tuWei
- * @LastEditTime: 2022-07-08 17:28:14
+ * @LastEditTime: 2022-07-13 18:36:35
 -->
 <template>
   <div class="h-full">
     <el-row class="h-full">
       <el-col :span="4" class="h-full bg-green-50">
         <el-menu :default-active="acIndex" class="h-full  el-menu-vertical-demo" @select="handleOpen">
-          <el-menu-item index="1">
+          <el-menu-item v-for="item in menuList" :index="item.path" :key="item">
             <el-icon>
               <icon-menu />
             </el-icon>
-            <span>人员列表</span>
-          </el-menu-item>
-          <el-menu-item index="2">
-            <el-icon><document /></el-icon>
-            <span>文章列表</span>
-          </el-menu-item>
-          <el-menu-item index="3">
-            <el-icon><document /></el-icon>
-            <span>文章分类</span>
+            <span>{{item.name}}</span>
           </el-menu-item>
         </el-menu>
       </el-col>
@@ -54,16 +46,18 @@ import {
   Location,
   Setting,
 } from '@element-plus/icons-vue';
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { ref, reactive } from 'vue'
 import { getCookie } from '../api/utils';
 import Register from './register.vue';
 
+
+
 const router = useRouter();
+const route = useRoute();
 const outerVisible = ref(false)
 const userInfo = reactive(JSON.parse(String(localStorage.getItem('userInfo'))));
-
-const acIndex = ref('1')
+const acIndex = ref(route.path);
 
 const toLogin = () => {
   router.push({
@@ -89,27 +83,29 @@ const closeModel = (flag) => {
 if (!userInfo.id) {
   toLogin();
 }
+
+const menuList = reactive([
+  {
+    name: '人员列表',
+    path: '/home/list'
+  },
+  {
+    name: '文章列表',
+    path: '/home/posts'
+  },
+  {
+    name: '文章分类',
+    path: '/home/category'
+  },
+]);
+
 const handleOpen = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath);
   acIndex.value = key;
-  if (key === '1') {
-    router.push({
-      path: '/home/list',
-    })
-    acIndex.value = '1'
-  }else if(key === '2'){
-    router.push({
-      path: '/home/posts',
-    })
-    acIndex.value = '2'
-  }
-  else if(key === '3'){
-    router.push({
-      path: '/home/category',
-    })
-    acIndex.value = '3'
-  }
+  router.push({
+    path: key,
+  })
 }
+
 const handleClose = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
 }
