@@ -2,7 +2,7 @@
  * @Author: tuWei
  * @Date: 2022-06-30 18:57:02
  * @LastEditors: tuWei
- * @LastEditTime: 2022-07-13 23:11:08
+ * @LastEditTime: 2022-07-27 13:22:09
 -->
 <template>
 <div class="bg-green-500 bg-opacity-25 h-full">
@@ -32,6 +32,7 @@ import { ElMessage } from 'element-plus';
 import axios from '../api/axios'//引入axios
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import { api } from '../api/env.js'
 import { getCookie, setCookie } from "../api/utils"
 
 const router = useRouter();
@@ -47,7 +48,7 @@ const register = ()=> {
 }
 
 const onSave = ()=>{
-  axios.post('http://127.0.0.1:4000/auth/login', { ...form })
+  axios.post(api + '/auth/login', { ...form })
   .then(function (res) {
     if(res['access_token']){
       setCookie('access_token', res['access_token'])

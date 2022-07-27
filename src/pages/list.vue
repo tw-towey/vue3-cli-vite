@@ -54,6 +54,7 @@ import { ref, reactive } from 'vue'
 import { ElMessage } from 'element-plus';
 import { Timer } from '@element-plus/icons-vue'
 import Register from './register.vue';
+import { api } from '../api/env.js'
 
 let tableData = ref([]);
 let userId = ref(0);
@@ -95,14 +96,14 @@ const editFn = (r)=>{
   userId.value = r.row.id
 }
 const deleteFn = (r)=> {
-  axios.post('http://127.0.0.1:4000/user/remove', {id: r.row.id})
+  axios.post(api + '/user/remove', {id: r.row.id})
     .then(function (res) {
       console.log(res);
       getData();
     })
 }
 const getData = ()=>{
-    axios.post('http://127.0.0.1:4000/user/userList', {
+    axios.post(api + '/user/userList', {
       pageSize: 10,
       current: current.value,
       ...formInline

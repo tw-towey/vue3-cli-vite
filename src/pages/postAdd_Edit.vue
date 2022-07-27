@@ -2,7 +2,7 @@
  * @Author: tuWei
  * @Date: 2022-06-30 18:57:02
  * @LastEditors: tuWei
- * @LastEditTime: 2022-07-13 18:51:08
+ * @LastEditTime: 2022-07-27 13:22:13
 -->
 <template>
   <div class="p-4">
@@ -51,6 +51,7 @@ import { ElMessage } from 'element-plus';
 import axios from '../api/axios'//引入axios
 import Mock from 'mockjs'
 import MdEditor from 'md-editor-v3';
+import { api } from '../api/env.js'
 import 'md-editor-v3/lib/style.css';
 import { useRoute, useRouter } from 'vue-router'
 const router = useRouter();
@@ -75,7 +76,7 @@ const category = reactive({
   ]
 })
 const getCategory = ()=>{
-  axios.post('http://127.0.0.1:4000/category/categoryList', {
+  axios.post(api + '/category/categoryList', {
     pageSize: 100,
     current: 1,
     name: '',
@@ -96,7 +97,7 @@ const changeform = (res) => {
 };
 
 const getDetailByUserId = (id) => {
-  axios.get('http://127.0.0.1:4000/posts/queryById/' + id)
+  axios.get(api + '/posts/queryById/' + id)
     .then(function (res) {
       changeform(res.data);
     })
@@ -112,7 +113,7 @@ const initData = () => {
 initData();
 
 const onSubmit = () => {
-  axios.post('http://127.0.0.1:4000/posts/create', { ...form } )
+  axios.post(api + '/posts/create', { ...form } )
   .then(function (res) {
     changeform({})
     router.push({
@@ -129,7 +130,7 @@ const onSubmit = () => {
 const emit = defineEmits(['close-model'])
 
 const onSave = () => {
-  axios.post('http://127.0.0.1:4000/posts/updateById', { id: userId.value, ...form })
+  axios.post(api + '/posts/updateById', { id: userId.value, ...form })
   .then(function (res) {
     ElMessage({
       showClose: true,

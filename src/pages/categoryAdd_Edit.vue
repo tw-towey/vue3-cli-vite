@@ -29,6 +29,7 @@ import { reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus';
 import axios from '../api/axios'//引入axios
 import { useRoute, useRouter } from 'vue-router'
+import { api } from '../api/env.js'
 const router = useRouter();
 const route= useRoute();
 console.log(route.query); 
@@ -49,7 +50,7 @@ const changeform = (res) => {
 };
 
 const getDetailByUserId = (id) => {
-  axios.get('http://127.0.0.1:4000/category/queryById/' + id)
+  axios.get(api + '/category/queryById/' + id)
     .then(function (res) {
       console.log(res);
       changeform(res.data)
@@ -65,7 +66,7 @@ const initData = () => {
 
 initData();
 const onSubmit = () => {
-  axios.post('http://127.0.0.1:4000/category/create', { ...form } )
+  axios.post(api + '/category/create', { ...form } )
   .then(function (res) {
     changeform({})
     router.push({
@@ -80,7 +81,7 @@ const onSubmit = () => {
 };
 
 const onSave = () => {
-  axios.post('http://127.0.0.1:4000/category/update', { id: userId.value, ...form })
+  axios.post(api + '/category/update', { id: userId.value, ...form })
     .then(function (res) {
       ElMessage({
         showClose: true,

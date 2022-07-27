@@ -2,7 +2,7 @@
  * @Author: tuWei
  * @Date: 2022-06-30 18:57:02
  * @LastEditors: tuWei
- * @LastEditTime: 2022-07-13 18:25:45
+ * @LastEditTime: 2022-07-27 13:22:29
 -->
 <template>
   <el-form :model="form" label-width="120px">
@@ -13,7 +13,7 @@
       <el-input v-model="form.username" />
     </el-form-item>
     <el-form-item label="密码">
-      <el-input type="text" v-model="form.password" />
+      <el-input type="password" v-model="form.password" />
     </el-form-item>
     <el-form-item label="性别">
       <el-select v-model="form.sex" clearable placeholder="Select">
@@ -56,7 +56,7 @@
     </el-form-item>
     <el-form-item v-else>
       <el-button @click="onSubmit">Create</el-button>
-      <el-button @click="changeform">刷新数据</el-button>
+      <el-button @click="changeform">一键生成</el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -66,6 +66,8 @@ import { reactive } from 'vue'
 import { ElMessage } from 'element-plus';
 import axios from '../api/axios' //引入axios
 import Mock from 'mockjs'
+import { api } from '../api/env.js'
+
 import { useRouter } from 'vue-router'
 const router = useRouter();
 
@@ -83,7 +85,6 @@ Mock.Random.extend({
     return  Mock.mock(/^0{0,1}(1[0-9][0-9]|15[7-9]|153|156|18[7-9])[0-9]{8}$/) //Number()
   }
 })
-
 // do not use same name with ref
 const form = reactive({
   username: '',
@@ -113,7 +114,7 @@ const changeform = (res)=>{
 };
 
 const getDetailByUserId = (id)=>{
-  axios.get('http://127.0.0.1:4000/user/'+ id)
+  axios.get(api + '/user/'+ id)
   .then(function (res) {
     console.log(res);
     changeform(res.data)
@@ -122,13 +123,11 @@ const getDetailByUserId = (id)=>{
 const initData = ()=>{
   if(props.userId){
     getDetailByUserId(props.userId);
-  } else {
-    changeform({});
   }
 }
 initData();
 const onSubmit = () => {
-  axios.post('http://127.0.0.1:4000/user/addUser', form)
+  axios.post(api + '/user/addUser', form)
   .then(function (res) {
     changeform({})
     if(emit){
@@ -147,7 +146,7 @@ const onSubmit = () => {
 
 const emit = defineEmits(['close-model'])
 const onSave = ()=>{
-  axios.post('http://127.0.0.1:4000/user/update', { id: props.userId, ...form, dateOfBirth: new Date(form.dateOfBirth).toLocaleDateString() })
+  axios.post(api + '/user/update', { id: props.userId, ...form, dateOfBirth: new Date(form.dateOfBirth).toLocaleDateString() })
   .then(function (res) {
     ElMessage({
       showClose: true,

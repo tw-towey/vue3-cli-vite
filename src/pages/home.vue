@@ -2,7 +2,7 @@
  * @Author: tuWei
  * @Date: 2022-07-04 16:57:04
  * @LastEditors: tuWei
- * @LastEditTime: 2022-07-13 18:36:35
+ * @LastEditTime: 2022-07-28 00:59:11
 -->
 <template>
   <div class="h-full">
@@ -49,14 +49,15 @@ import {
 import { useRouter, useRoute } from 'vue-router'
 import { ref, reactive } from 'vue'
 import { getCookie } from '../api/utils';
+import { api } from '../api/env.js'
 import Register from './register.vue';
-
 
 
 const router = useRouter();
 const route = useRoute();
 const outerVisible = ref(false)
-const userInfo = reactive(JSON.parse(String(localStorage.getItem('userInfo'))));
+let user = localStorage.getItem('userInfo') || '{}';
+const userInfo = reactive(JSON.parse(user));
 const acIndex = ref(route.path);
 
 const toLogin = () => {
@@ -96,6 +97,10 @@ const menuList = reactive([
   {
     name: '文章分类',
     path: '/home/category'
+  },
+  {
+    name: '聊天',
+    path: '/home/chat'
   },
 ]);
 

@@ -2,7 +2,7 @@
  * @Author: tuWei
  * @Date: 2022-06-30 18:54:03
  * @LastEditors: tuWei
- * @LastEditTime: 2022-07-13 18:47:46
+ * @LastEditTime: 2022-07-27 13:22:21
 -->
 <template>
 <div class="h-full flex flex-col">
@@ -48,6 +48,7 @@ import { ref, reactive } from 'vue'
 import { ElMessage } from 'element-plus';
 import { Timer } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
+import { api } from '../api/env.js'
 const router = useRouter();
 const userInfo = JSON.parse(String(localStorage.getItem('userInfo')));
 let tableData = ref([]);
@@ -103,14 +104,14 @@ const editFn = (r)=>{
   })
 }
 const deleteFn = (r)=> {
-  axios.get('http://127.0.0.1:4000/posts/remove/' + r.row.id)
+  axios.get(api + '/posts/remove/' + r.row.id)
     .then(function (res) {
       console.log(res);
       getData();
     })
 }
 const getData = ()=>{
-    axios.post('http://127.0.0.1:4000/posts/list', {
+    axios.post(api + '/posts/list', {
       pageSize: 10,
       current: current.value,
       title: formInline.title,
