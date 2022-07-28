@@ -7,10 +7,12 @@
 <template>
   <div class="p-5">
     <ul :style="{'height': '80%', 'overflow': 'auto'}" ref="myRef">
-      <li v-for="item in ListData.list" :key="item" class="p-1 flex"> 
-        <span class="text-blue-600 text-right w-10 inline-block">{{item.username}}: </span>
-        <span class="ml-5 flex-1">{{item.content}}</span>
-        <span class="ml-5 float-right w-50 inline-block" v-if="item.createdAt">{{ new Date(item.createdAt).toLocaleString() }}</span>
+      <li v-for="item in ListData.list" :key="item" :class="style(item,'li')">
+        <p class="flex items-center" :class="style(item,'p')">
+          <span class="inline-block px-3 py-1 bg-blue-400 text-white text-center font-extrabold rounded-md" :class="style(item,'username')">{{item.username}}</span>
+          <span class="ml-5 mr-5 w-50 text-gray-300" v-if="item.createdAt">{{ new Date(item.createdAt).toLocaleString() }}</span>
+        </p>
+        <span class="inline-block text-left bg-purple-100 text-sm px-5 py-2 mx-3 my-3 rounded-md font-semibold text-purple-500 bg-violet-200 ring ring-violet-300 ring-offset-2 ring-offset-violet-50">{{item.content}}</span>
       </li>
     </ul>
     <div class="pt-5 pb-5">
@@ -88,5 +90,25 @@ const send = ()=>{
     form.content = '';
     bottomScroll();
   })
+}
+
+const style = (item,tag)=> {
+  let self = item.userId===form.userId;
+  if( tag === 'li' ) {
+    return {
+      'p-1': true,
+      'text-right': self,
+      'ml-60': self,
+      'mr-60': !self
+    }
+  }else if( tag === 'username' ) {
+    return {
+      'bg-red-400': self
+    }
+  }else if( tag === 'p' ) {
+    return {
+      'flex-row-reverse': self
+    }
+  }
 }
 </script>
