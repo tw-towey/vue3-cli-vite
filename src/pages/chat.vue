@@ -2,7 +2,7 @@
  * @Author: tuWei
  * @Date: 2022-06-30 18:54:03
  * @LastEditors: tuWei
- * @LastEditTime: 2022-07-28 01:30:50
+ * @LastEditTime: 2022-07-28 10:46:55
 -->
 <template>
   <div class="p-5">
@@ -27,6 +27,8 @@
 import { reactive, ref, onMounted } from 'vue'
 import axios from '../api/axios'//引入axios
 import { api, wsHerf  } from '../api/env.js'
+const ws = new WebSocket(wsHerf);
+//当前登录人的信息 userId
 const userInfo = reactive(JSON.parse(String(localStorage.getItem('userInfo'))));
 
 let myRef = ref(null);
@@ -34,10 +36,11 @@ onMounted(() => {
   bottomScroll();
 });
 
-
 function bottomScroll(){
   setTimeout(() =>{
-    myRef.value.scrollTop = myRef.value.scrollHeight;
+    if(myRef.value){
+      myRef.value.scrollTop = myRef.value.scrollHeight;
+    }
   }, 200)
 }
 
@@ -49,29 +52,35 @@ const form = reactive({
 let ListData = reactive({
   list: []
 })
-var ws = new WebSocket(wsHerf);
+
 //服务端向客户端连接执行
 ws.onopen = ()=>{
   console.log('连接建立')
 }
+
+//接收消息方法
 ws.onmessage = (msg)=>{
   console.log(JSON.parse(msg['data']));
   ListData.list.push(JSON.parse(msg['data']));
   bottomScroll();
 }
+
+//获取聊天历史记录
 const getChatList = ()=>{
   axios.post(api + '/chat/getList', form)
   .then( (res)=> {
     ListData.list = [...res.data];
   })
 }
+
+getChatList();
+//回车发送消息
 const enterSend = (e)=>{
   if(e && e.keyCode === 13){
     send();
   }
 }
-
-getChatList();
+//发送消息
 const send = ()=>{
   ws.send(JSON.stringify(form));
   axios.post(api + '/chat/send', form)
