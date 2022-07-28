@@ -2,7 +2,7 @@
  * @Author: tuWei
  * @Date: 2022-06-30 18:57:02
  * @LastEditors: tuWei
- * @LastEditTime: 2022-07-27 13:22:29
+ * @LastEditTime: 2022-07-29 03:04:29
 -->
 <template>
   <el-form :model="form" label-width="120px">
@@ -14,6 +14,18 @@
     </el-form-item>
     <el-form-item label="密码">
       <el-input type="password" v-model="form.password" />
+    </el-form-item>
+    <el-form-item label="头像">
+      <el-upload
+      class="avatar-uploader"
+      name="file"
+      :action="api+'/upload'"
+      :show-file-list="false"
+      :on-success="handleAvatarSuccess"
+    >
+      <img v-if="form.avatar" :src="form.avatar" class="avatar" />
+      <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+    </el-upload>
     </el-form-item>
     <el-form-item label="性别">
       <el-select v-model="form.sex" clearable placeholder="Select">
@@ -62,8 +74,10 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus';
+import type { UploadProps } from 'element-plus'
+import { Plus } from '@element-plus/icons-vue'
 import axios from '../api/axios' //引入axios
 import Mock from 'mockjs'
 import { api } from '../api/env.js'
@@ -74,6 +88,14 @@ const router = useRouter();
 type Props = {
   userId: Number,
 }
+
+const handleAvatarSuccess: UploadProps['onSuccess'] = (
+  response,
+  uploadFile
+) => {
+  form.avatar = URL.createObjectURL(uploadFile.raw!)
+}
+
 
 const props = defineProps<Props>();
 // const { appContext } = getCurrentInstance();
@@ -97,12 +119,14 @@ const form = reactive({
   email: '',
   remake: '',
   address:'',
+  avatar: '',
 });
 
 const changeform = (res)=>{
   const Obj = res || {};
   form.username = Obj.username || Mock.mock('@cname');
   form.password = Obj.password || '123456';
+  form.avatar = Obj.avatar || null;
   form.dateOfBirth = Obj.dateOfBirth || Mock.mock('@date');
   form.sex = Obj.sex || Math.round(Math.random() + 1);
   form.cellphone= Obj.cellphone || Mock.mock(/^1[356789]{1}[0-9]{9}$/);
@@ -157,3 +181,30 @@ const onSave = ()=>{
   })
 }
 </script>
+<style>
+.avatar-uploader .avatar {
+  width: 120px;
+  height: 120px;
+  display: block;
+}
+.avatar-uploader .el-upload {
+  border: 1px dashed var(--el-border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: var(--el-transition-duration-fast);
+}
+
+.avatar-uploader .el-upload:hover {
+  border-color: var(--el-color-primary);
+}
+
+.el-icon.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 120px;
+  height: 120px;
+  text-align: center;
+}
+</style>
