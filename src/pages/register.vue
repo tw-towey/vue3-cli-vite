@@ -2,7 +2,7 @@
  * @Author: tuWei
  * @Date: 2022-06-30 18:57:02
  * @LastEditors: tuWei
- * @LastEditTime: 2022-07-29 03:04:29
+ * @LastEditTime: 2022-07-29 12:50:25
 -->
 <template>
   <el-form :model="form" label-width="120px">
@@ -93,7 +93,8 @@ const handleAvatarSuccess: UploadProps['onSuccess'] = (
   response,
   uploadFile
 ) => {
-  form.avatar = URL.createObjectURL(uploadFile.raw!)
+  // form.avatar = URL.createObjectURL(uploadFile.raw!)
+  form.avatar = response.url;
 }
 
 
