@@ -2,7 +2,7 @@
  * @Author: tuWei
  * @Date: 2022-06-30 18:57:02
  * @LastEditors: tuWei
- * @LastEditTime: 2022-07-27 13:22:13
+ * @LastEditTime: 2022-08-10 15:49:44
 -->
 <template>
   <div class="p-4">
@@ -29,7 +29,7 @@
       <!-- <div title="添加与修改文章" class="w-full p-16"> -->
       <!-- </div> -->
       <el-form-item label="内容" class="py-1.5">
-        <md-editor v-model="form.content" :preview='true' class='h-full'/>
+        <md-editor v-model="form.content" :preview='true' @onUploadImg="onUploadImg" class='h-full'/>
       </el-form-item>
       <el-form-item v-if="userId">
         <el-button @click="onSave" type="primary">保存</el-button>
@@ -60,6 +60,7 @@ const userInfo = JSON.parse(String(localStorage.getItem('userInfo')));
 const userId = ref(route.query.id);
 const view = ref(route.query.type ? true : false);
 console.log(route.query.type);
+
 // do not use same name with ref
 const form = reactive({
   categories: [],
@@ -88,6 +89,26 @@ const getCategory = ()=>{
   })
 }
 getCategory();
+
+const onUploadImg = async (files, callback) => {
+  const res = await Promise.all(
+    files.map((file) => {
+      return new Promise((rev, rej) => {
+        const form = new FormData();
+        form.append('file', file);
+        axios
+          .post(api + '/upload', form, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          })
+          .then((res) => rev(res))
+          .catch((error) => rej(error));
+      });
+    })
+  );
+  callback(res.map((item: any) => item.url));
+};
 const changeform = (res) => {
   const obj = res || {};
   form.title = obj.title;
